@@ -1,8 +1,14 @@
-let express = require("express");
-let app = express();
-let http = require("http").Server(app);
-let io = require("socket.io")(http);
-let fs = require("fs");
+const express = require("express");
+const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+const fs = require("fs");
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 app.set("port", process.env.PORT || 8080);
 
@@ -26,4 +32,11 @@ io.on("connection", function (socket) {
 
 http.listen(app.get("port"), function () {
   console.log("listening on port " + app.get("port"));
+  readCommands();
 });
+
+function readCommands() {
+  rl.question('Please Enter Command: \n', (answer) => {
+    console.log(`${answer}`);
+  });
+}
